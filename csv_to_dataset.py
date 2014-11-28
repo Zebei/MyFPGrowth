@@ -1,9 +1,6 @@
 # -*- coding: UTF8 -*-
 
-
 '''
-——————
-csv to dataset.py
 ——————
 这个程序主要是将.csv 文件转换成其他算法可用的数据集合dataset
 例如用于Apriori以及FP-growth算法中。
