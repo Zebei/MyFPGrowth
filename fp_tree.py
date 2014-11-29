@@ -4,27 +4,32 @@ from csv_to_dataset import csv_to_dataset
 from fp_pretreatment import fp_pretreatment
 from global_var import dataset, tree, tree_from, minsup, now_number, sorteditem #导入全局变量，更加方便
 
+
 #将trans 按照 sorteditem 的次序生成并且返回 [p|P]
 def sort_trans(trans):
 
     num_dict = {}
-    big_num = 0
-    for i_1 in range(len(sorteditem) - 1):
-        for i in range(len(trans) - 2):
-            if sorteditem[i_1][0] == trans[i]:
-                num_dict[trans[i]] = sorteditem[i_1][1]
+
+    for i in range(len(sorteditem) - 1):
+        for item in trans:
+            if sorteditem[i][0] == item:
+                num_dict[item] = sorteditem[i][1]
+            else:
+                print item
+                print 'big bug'
 
     sorted_num = sorted(num_dict.iteritems(), key = lambda asd:asd[1], reverse = True)
+
+    '''
+    print 'trans 0'
+    print trans
+    print 'sorted_num'
     print sorted_num
-    temp = sorted_num[0][0]
+    '''
 
-    num = 0
-    for i in range(len(trans) - 1):
-        if temp == trans:
-            num = i
-
-    del trans[num]
-    return [temp, trans]
+    node = sorted_num[0][0]
+    trans.remove(node)
+    return node, trans
 
 
 #define class node
@@ -46,7 +51,7 @@ def create_fp_tree(father_num, trans, now_level):
 
     if trans != []:
 
-        now_node_value = sort_trans(trans)[0]
+        now_node_value, trans = sort_trans(trans)
         if_child = 0
         temp_children = tree[father_num].children
 
@@ -64,8 +69,15 @@ def create_fp_tree(father_num, trans, now_level):
 
             tree_from[tree[item].value][0] += 1
 
-            if trans[1] != []:
-                create_fp_tree(father_num, sort_trans(trans)[1], now_level)
+            print 'trans 1'
+            print trans
+
+            if trans != []:
+
+                print 'trans 2'
+                print trans
+
+                create_fp_tree(father_num, trans, now_level)
 
         else:
             node_now = node
@@ -89,7 +101,14 @@ def create_fp_tree(father_num, trans, now_level):
             else:
                 tree_from[node_now.value] = [1, now_number - 1]
 
-            if trans[1] != []:
+            print 'trans 3'
+            print trans
+
+            if trans != []:
+
+                print 'trans 4'
+                print trans
+
                 create_fp_tree(father_num, sort_trans(trans)[1], now_level)
 
 
@@ -132,6 +151,7 @@ minsup = 5
 
 dataset, sorteditem = fp_pretreatment(dataset, minsup)
 fp_tree()
+
 print "TREE : "
 print tree
 print "TREE END"
