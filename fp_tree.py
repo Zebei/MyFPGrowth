@@ -48,8 +48,21 @@ def create_fp_tree(father_num, trans, now_level):
     if trans != []:
 
         now_node_value, trans = sort_trans(trans)
+        #通过函数得到当前事务中排序最高的节点和其他的数据组成的数据集合
+        #但是其实每次事务的传递都会导致一次重新排序，因此其实可以优化一下，有空实行
+
+        this_node = node
+        this_node.num = now_number
+        this_node.father = father_num
+        this_node.time = 1
+        this_node.value = now_node_value
+        this_node.children = []
+        this_node.level = now_level
+        #初始化当前node
+
         if_child = 0
         temp_children = tree[father_num].children
+        #复制父节点的子节点列表
 
         item_number = 0
         for item in temp_children:
@@ -57,17 +70,23 @@ def create_fp_tree(father_num, trans, now_level):
                 if_child = 1
                 item_number = item
                 break
+        #判断节点node 是否存在于树中的子节点中
 
-        if if_child == 1:
-            tree[item].time += 1
-            father_num = item_number
+        if if_child == 1:#如果它存在于上一个节点的子节点中
+            tree[this_node.now_number] = this_node
+
+            tree[item_number].time += 1
+            tree[item_number].children.append(now_number)
+
             now_level += 1
 
-            tree_from[tree[item].value][0] += 1
+            tree_from[tree[item_number].value][0] += 1
+            tree_from[tree[item_number].value].append(now_number)
 
+            father_num = item_number
             create_fp_tree(father_num, trans, now_level)
 
-        else:
+        else:#如果它不存在于上一个节点的子节点中
             node_now = node
 
             node_now.father = father_num
@@ -76,6 +95,7 @@ def create_fp_tree(father_num, trans, now_level):
             node_now.time += 1
             node_now.value = now_node_value
             node_now.level = now_level
+
             now_level += 1
             node_now.children = []
             node_now.time += 1
@@ -127,6 +147,7 @@ dataset, sorteditem = fp_pretreatment(dataset, minsup)
 #对dataset 进行第一次排序，生成属性的排序表 sorteditem
 fp_tree()
 
+#对于每一个属性，分派一个序号
 print "TREE : "
 print tree
 print "TREE END"
