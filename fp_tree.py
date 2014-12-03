@@ -14,9 +14,6 @@ def sort_trans(trans):
         for item in trans:
             if sorteditem[i][0] == item:
                 num_dict[item] = sorteditem[i][1]
-            else:
-                print item
-                print 'big bug'
 
     sorted_num = sorted(num_dict.iteritems(), key = lambda asd:asd[1], reverse = True)
 
