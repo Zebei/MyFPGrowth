@@ -8,25 +8,24 @@ from global_var import dataset, tree, tree_from, minsup, now_number, sorteditem 
 #将trans 按照 sorteditem 的次序生成并且返回 [p|P]
 def sort_trans(trans):
 
-    num_dict = {}
+    if len(trans) > 1:
+        num_dict = {}
 
-    for i in range(len(sorteditem) - 1):
-        for item in trans:
-            if sorteditem[i][0] == item:
-                num_dict[item] = sorteditem[i][1]
+        for i in range(len(sorteditem) - 1):
+            for item in trans:
+                if sorteditem[i][0] == item:
+                    num_dict[item] = sorteditem[i][1]
 
-    sorted_num = sorted(num_dict.iteritems(), key = lambda asd:asd[1], reverse = True)
+        sorted_num = sorted(num_dict.iteritems(), key = lambda asd:asd[1], reverse = True)
 
-    '''
-    print 'trans 0'
-    print trans
-    print 'sorted_num'
-    print sorted_num
-    '''
+        node = sorted_num[0][0]
+        trans.remove(node)
+        return node, trans
 
-    node = sorted_num[0][0]
-    trans.remove(node)
-    return node, trans
+    else:
+
+        node = trans[0]
+        return node, []
 
 
 #define class node
@@ -66,15 +65,7 @@ def create_fp_tree(father_num, trans, now_level):
 
             tree_from[tree[item].value][0] += 1
 
-            print 'trans 1'
-            print trans
-
-            if trans != []:
-
-                print 'trans 2'
-                print trans
-
-                create_fp_tree(father_num, trans, now_level)
+            create_fp_tree(father_num, trans, now_level)
 
         else:
             node_now = node
@@ -98,15 +89,7 @@ def create_fp_tree(father_num, trans, now_level):
             else:
                 tree_from[node_now.value] = [1, now_number - 1]
 
-            print 'trans 3'
-            print trans
-
-            if trans != []:
-
-                print 'trans 4'
-                print trans
-
-                create_fp_tree(father_num, sort_trans(trans)[1], now_level)
+            create_fp_tree(father_num, sort_trans(trans)[1], now_level)
 
 
 def fp_tree():
@@ -129,24 +112,19 @@ def fp_tree():
 
     now_number += 1
 
-    for i in range(1,len(dataset)):
-        create_fp_tree(now_number-1, dataset[i], 1)
+    for i in range(len(dataset) - 1):
+        create_fp_tree(now_number-1, dataset[i + 1], 1)
 
     #return tree, tree_from
 
 #------test------------
 path = 'C:\Users\AlanCheg\Desktop\Bank_data_lite.csv'
 dataset = csv_to_dataset(path)
-
-print "DATASET"
-print dataset
-print "DATASET END"
 #数据预处理，将csv文件的项目按照属性重新生成{ num1 : list1 ; num2 : list2 ; ...}
 
 minsup = 5
-#print "SORTED DATASET"
-
 dataset, sorteditem = fp_pretreatment(dataset, minsup)
+#对dataset 进行第一次排序，生成属性的排序表 sorteditem
 fp_tree()
 
 print "TREE : "

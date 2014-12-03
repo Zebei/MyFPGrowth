@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="43edf0a9-b409-4a6a-9f28-769e35e692e6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fp_tree.py" afterPath="$PROJECT_DIR$/fp_tree.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MyFPGrowth.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -16,7 +15,7 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/MyFPGrowth$fp_pretreatment.coverage" NAME="fp_pretreatment Coverage Results" MODIFIED="1417205813529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MyFPGrowth$fp_tree.coverage" NAME="fp_tree Coverage Results" MODIFIED="1417609158649" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MyFPGrowth$fp_tree.coverage" NAME="fp_tree Coverage Results" MODIFIED="1417623727746" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -63,10 +62,12 @@
       <file leaf-file-name="fp_tree.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/fp_tree.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9139785" vertical-offset="0" max-vertical-offset="2754">
-              <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.2611367" vertical-offset="0" max-vertical-offset="1870">
+              <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding>
                 <element signature="e#24#65#0" expanded="true" />
+                <element signature="e#271#729#0" expanded="false" />
+                <element signature="e#773#998#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -367,7 +368,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="784" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -408,7 +409,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -442,6 +443,8 @@
           <caret line="159" column="19" selection-start-line="159" selection-start-column="19" selection-end-line="159" selection-end-column="19" />
           <folding>
             <element signature="e#24#65#0" expanded="true" />
+            <element signature="e#271#729#0" expanded="false" />
+            <element signature="e#773#998#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -476,6 +479,8 @@
           <caret line="159" column="19" selection-start-line="159" selection-start-column="19" selection-end-line="159" selection-end-column="19" />
           <folding>
             <element signature="e#24#65#0" expanded="true" />
+            <element signature="e#271#729#0" expanded="false" />
+            <element signature="e#773#998#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -510,6 +515,8 @@
           <caret line="23" column="19" selection-start-line="23" selection-start-column="19" selection-end-line="23" selection-end-column="19" />
           <folding>
             <element signature="e#24#65#0" expanded="true" />
+            <element signature="e#271#729#0" expanded="false" />
+            <element signature="e#773#998#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -548,10 +555,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/fp_tree.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9139785" vertical-offset="0" max-vertical-offset="2754">
-          <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.2611367" vertical-offset="0" max-vertical-offset="1870">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding>
             <element signature="e#24#65#0" expanded="true" />
+            <element signature="e#271#729#0" expanded="false" />
+            <element signature="e#773#998#0" expanded="false" />
           </folding>
         </state>
       </provider>
