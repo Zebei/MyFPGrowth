@@ -40,9 +40,9 @@ def fp_pretreatment(dataset, minsup):
 path = 'C:\Users\AlanCheg\Desktop\Bank_data_lite.csv'
 dataset = csv_to_dataset(path)
 
-print "DATASET"
-print dataset
-print "DATASET END"
+#print "DATASET"
+#print dataset
+#print "DATASET END"
 #数据预处理，将csv文件的项目按照属性重新生成{ num1 : list1 ; num2 : list2 ; ...}
 minsup = 5
 #print "SORTED DATASET"

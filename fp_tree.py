@@ -4,6 +4,7 @@ from csv_to_dataset import csv_to_dataset
 from fp_pretreatment import fp_pretreatment
 from global_var import dataset, tree, tree_from, minsup, sorteditem, now_number #导入全局变量，更加方便
 
+global now_number
 
 #将trans 按照 sorteditem 的次序生成并且返回 p, [P]
 def sort_trans(trans):
@@ -46,6 +47,7 @@ class node(object):
 
 def create_fp_tree(father_num, trans, now_level):
 
+    global now_number
     if len(trans) != 0:
 
         now_node_value, trans = sort_trans(trans)
@@ -54,7 +56,6 @@ def create_fp_tree(father_num, trans, now_level):
 
         if_child = 0
 
-        print now_number
         temp_children = tree[father_num].children
         #复制父节点的子节点列表
 
@@ -113,6 +114,7 @@ def create_fp_tree(father_num, trans, now_level):
 
 def fp_tree():
 
+    global now_number
     now_number = 0
 
     tree[now_number] = node
@@ -137,9 +139,12 @@ def fp_tree():
 
 
 #------test------------
+global dataset
 path = 'C:\Users\AlanCheg\Desktop\Bank_data_lite.csv'
 dataset = csv_to_dataset(path)
 #数据预处理，将csv文件的项目按照属性重新生成{ num1 : list1 ; num2 : list2 ; ...}
+
+global minsup, sorteditem
 
 minsup = 5
 dataset, sorteditem = fp_pretreatment(dataset, minsup)
