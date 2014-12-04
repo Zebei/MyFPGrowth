@@ -2,7 +2,7 @@
 
 from csv_to_dataset import csv_to_dataset
 from fp_pretreatment import fp_pretreatment
-from global_var import dataset, tree, tree_from, minsup, now_number, sorteditem #导入全局变量，更加方便
+from global_var import dataset, tree, tree_from, minsup, sorteditem, now_number #导入全局变量，更加方便
 
 
 #将trans 按照 sorteditem 的次序生成并且返回 p, [P]
@@ -44,7 +44,7 @@ class node(object):
         self.time += time
 
 
-def create_fp_tree(father_num, trans, now_level, now_number):
+def create_fp_tree(father_num, trans, now_level):
 
     if len(trans) != 0:
 
@@ -77,7 +77,7 @@ def create_fp_tree(father_num, trans, now_level, now_number):
             tree_from[tree[item_number].value].append(now_number)
 
             next_father_num = item_number
-            create_fp_tree(next_father_num, trans, next_now_level, now_number)
+            create_fp_tree(next_father_num, trans, next_now_level)
 
         else:#如果它不存在于上一个节点的子节点中
 
@@ -108,11 +108,7 @@ def create_fp_tree(father_num, trans, now_level, now_number):
                 tree_from[this_node.value] = [1, next_father_num]
             #将当前节点添加到tree_form 中
 
-            create_fp_tree(next_father_num, sort_trans(trans)[1], next_now_level, now_number)
-
-    else:
-
-        return now_number
+            create_fp_tree(next_father_num, sort_trans(trans)[1], next_now_level)
 
 
 def fp_tree():
@@ -137,7 +133,7 @@ def fp_tree():
     now_number += 1
 
     for i in range(len(dataset) - 1):
-        now_number =  create_fp_tree(0, dataset[i + 1], 1, now_number)
+        create_fp_tree(0, dataset[i + 1], 1)
 
 
 #------test------------
