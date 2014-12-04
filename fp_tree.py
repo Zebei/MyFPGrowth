@@ -137,20 +137,28 @@ def fp_tree():
     for i in range(len(dataset) - 1):
         create_fp_tree(0, dataset[i + 1], 1)
 
+    return tree, tree_from
+
 
 #------test------------
-global dataset
-path = 'C:\Users\AlanCheg\Desktop\Bank_data_lite.csv'
-dataset = csv_to_dataset(path)
-#数据预处理，将csv文件的项目按照属性重新生成{ num1 : list1 ; num2 : list2 ; ...}
+def test_fp_tree():
 
-global minsup, sorteditem
+    global dataset
+    path = 'C:\Users\AlanCheg\Desktop\Bank_data_lite.csv'
+    dataset = csv_to_dataset(path)
+    #数据预处理，将csv文件的项目按照属性重新生成{ num1 : list1 ; num2 : list2 ; ...}
 
-minsup = 5
-dataset, sorteditem = fp_pretreatment(dataset, minsup)
-#对dataset 进行第一次排序，生成属性的排序表 sorteditem
-fp_tree()
+    global minsup, sorteditem
 
-#对于每一个属性，分派一个序号
-print tree
-print tree_from
+    minsup = 5
+    dataset, sorteditem = fp_pretreatment(dataset, minsup)
+    #对dataset 进行第一次排序，生成属性的排序表 sorteditem
+    fp_tree()
+
+    #对于每一个属性，分派一个序号
+    #print tree
+    #print tree_from
+
+    return tree, tree_from
+
+test_fp_tree()
