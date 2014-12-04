@@ -21,17 +21,17 @@ def fp_pretreatment(dataset, minsup):
             else:
                 dict_1[item] = 1
 
-    print "DICT_1 : "
-    print dict_1
-    print "DICT_1 END"
+    #print "DICT_1 : "
+    #print dict_1
+    #print "DICT_1 END"
 
     #对dict_1 进行排序，并且生成有序节点
     i = 0
     sorteditem = sorted(dict_1.iteritems(), key = lambda asd:asd[1], reverse = True)
 
-    print "SORTED DATASET"
-    print sorteditem
-    print "SORTED DATASET END"
+    #print "SORTED DATASET"
+    #print sorteditem
+    #print "SORTED DATASET END"
 
     return dataset, sorteditem
 

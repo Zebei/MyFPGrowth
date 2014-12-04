@@ -5,7 +5,7 @@ from fp_pretreatment import fp_pretreatment
 from global_var import dataset, tree, tree_from, minsup, now_number, sorteditem #导入全局变量，更加方便
 
 
-#将trans 按照 sorteditem 的次序生成并且返回 [p|P]
+#将trans 按照 sorteditem 的次序生成并且返回 p, [P]
 def sort_trans(trans):
 
     if len(trans) > 1:
@@ -29,6 +29,7 @@ def sort_trans(trans):
 
 
 #define class node
+#the value of node include num, level, time, value, father, children
 class node(object):
 
     def __init__(self):
@@ -43,73 +44,75 @@ class node(object):
         self.time += time
 
 
-def create_fp_tree(father_num, trans, now_level):
+def create_fp_tree(father_num, trans, now_level, now_number):
 
-    if trans != []:
+    if len(trans) != 0:
 
         now_node_value, trans = sort_trans(trans)
         #通过函数得到当前事务中排序最高的节点和其他的数据组成的数据集合
         #但是其实每次事务的传递都会导致一次重新排序，因此其实可以优化一下，有空实行
 
-        this_node = node
-        this_node.num = now_number
-        this_node.father = father_num
-        this_node.time = 1
-        this_node.value = now_node_value
-        this_node.children = []
-        this_node.level = now_level
-        #初始化当前node
-
         if_child = 0
+
+        print now_number
         temp_children = tree[father_num].children
         #复制父节点的子节点列表
 
         item_number = 0
-        for item in temp_children:
-            if tree[item].value == now_node_value:
-                if_child = 1
-                item_number = item
-                break
-        #判断节点node 是否存在于树中的子节点中
+        if len(temp_children) != 0:
+            for item in temp_children:
+                if tree[item].value == now_node_value:
+                    if_child = 1
+                    item_number = item
+            #判断节点node 是否存在于树中的子节点中
 
         if if_child == 1:#如果它存在于上一个节点的子节点中
-            tree[this_node.now_number] = this_node
 
             tree[item_number].time += 1
             tree[item_number].children.append(now_number)
 
-            now_level += 1
+            next_now_level =  now_level + 1
 
             tree_from[tree[item_number].value][0] += 1
             tree_from[tree[item_number].value].append(now_number)
 
-            father_num = item_number
-            create_fp_tree(father_num, trans, now_level)
+            next_father_num = item_number
+            create_fp_tree(next_father_num, trans, next_now_level, now_number)
 
         else:#如果它不存在于上一个节点的子节点中
-            node_now = node
 
-            node_now.father = father_num
-            node_now.num = now_number
-            father_num = now_number
-            node_now.time += 1
-            node_now.value = now_node_value
-            node_now.level = now_level
+            this_node = node
+            this_node.father = father_num
+            this_node.num = now_number
+            this_node.value = now_node_value
+            this_node.level = now_level
+            this_node.children = []
+            this_node.time = 1
+            #节点初始化
 
-            now_level += 1
-            node_now.children = []
-            node_now.time += 1
+            tree[now_number] = this_node
 
-            if node_now.value in tree_from.keys():
-                if now_number - 1 in tree_from[node_now.value][1:]:
-                    tree_from[node_now.value][0] += 1
+            next_father_num = now_number
+            now_number += 1
+            next_now_level = now_level + 1
+            #改变层级值和序号值
+
+            if this_node.value in tree_from.keys():
+                this_temp = tree_from[this_node.value][1:]
+                if next_father_num in this_temp:
+                    tree_from[this_node.value][0] += 1
                 else:
-                    tree_from[node_now.value][0] += 1
-                    tree_from[node_now.value].append(now_number - 1)
+                    tree_from[this_node.value][0] += 1
+                    tree_from[this_node.value].append(next_father_num)
             else:
-                tree_from[node_now.value] = [1, now_number - 1]
+                tree_from[this_node.value] = [1, next_father_num]
+            #将当前节点添加到tree_form 中
 
-            create_fp_tree(father_num, sort_trans(trans)[1], now_level)
+            create_fp_tree(next_father_num, sort_trans(trans)[1], next_now_level, now_number)
+
+    else:
+
+        return now_number
 
 
 def fp_tree():
@@ -130,12 +133,12 @@ def fp_tree():
         tree_from[tree[now_number].value].append(item)
     #tree_form 初始化
 
+    next_father_num = now_number
     now_number += 1
 
     for i in range(len(dataset) - 1):
-        create_fp_tree(now_number-1, dataset[i + 1], 1)
+        now_number =  create_fp_tree(0, dataset[i + 1], 1, now_number)
 
-    #return tree, tree_from
 
 #------test------------
 path = 'C:\Users\AlanCheg\Desktop\Bank_data_lite.csv'
@@ -148,9 +151,5 @@ dataset, sorteditem = fp_pretreatment(dataset, minsup)
 fp_tree()
 
 #对于每一个属性，分派一个序号
-print "TREE : "
 print tree
-print "TREE END"
-print "TREE_FORM : "
 print tree_from
-print "TREE_FORM END"
