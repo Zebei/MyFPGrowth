@@ -159,6 +159,6 @@ def test_fp_tree():
     #print tree
     #print tree_from
 
-    return tree, tree_from
+    return tree, tree_from, sorteditem
 
 test_fp_tree()

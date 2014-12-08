@@ -15,19 +15,58 @@ def tree_form_sorted(tree_from):
     return sorted_tree_form
 
 
-#判断树中是否只有单个路径
-def if_single_path(tree):
+#删除trans中所有排在node之后的元素，并且将trans递减排序
+def fp_base_pre(trans, node):
+
+    global sorteditem
+    new_trans = []
+
+    for item in trans:
+        if sorteditem.index(item) > sorteditem.index(node):
+            new_trans.append(item)
+    #找出trans中序号大于node的元素，保存在new_trans中
+
+    len_new_trans = len(new_trans)
+    sorted_new_trans = [0] * len_new_trans
+    max_node = node
+
+    for i in range(len_new_trans - 1):
+        for item in new_trans:
+            if sorteditem.index(item) > sorteditem.index(max_node):
+                max_node = item
+        sorted_new_trans[i] = max_node
+        del new_trans[new_trans.index(max_node)]
+    #排序
+
+    return sorted_new_trans
+
+
+#找出节点的条件模式基,并且返回
+def fp_base(node):
+
+    global dataset
+    base_set = {}
+
+    i = 1
+    for key in dataset:
+        if node in dataset[key]:
+            base_set[i] = dataset[key]
+            i += 1
+    #找出节点存在的所有事务
+
+    for key in base_set:
+        base_set[key] = fp_base_pre(base_set[key], node)
+    #删除事务中小于node的节点，并且进行排序
+
+
     pass
+    #生成tree 和 tree_form
 
 
 def fp_growth(tree, node):
 
     global fp_set
-
-    if if_single_path(tree):
-        pass
-    else:
-        pass
+    global dataset
 
 
 def fp_mining(sorted_tree_form):
@@ -42,9 +81,9 @@ def fp_mining(sorted_tree_form):
 
 
 #----------test-------------
-global tree, tree_form
+global tree, tree_form, sorteditem
 global dataset
-tree, tree_form = test_fp_tree()
+tree, tree_form, sorteditem = test_fp_tree()
 
 global fp_set, minsup
 fp_set = {}
