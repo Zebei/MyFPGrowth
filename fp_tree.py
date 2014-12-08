@@ -112,7 +112,7 @@ def create_fp_tree(father_num, trans, now_level):
             create_fp_tree(next_father_num, sort_trans(trans)[1], next_now_level)
 
 
-def fp_tree():
+def fp_tree(dataset):
 
     global now_number
     now_number = 0
@@ -153,7 +153,7 @@ def test_fp_tree():
     minsup = 5
     dataset, sorteditem = fp_pretreatment(dataset, minsup)
     #对dataset 进行第一次排序，生成属性的排序表 sorteditem
-    fp_tree()
+    fp_tree(dataset)
 
     #对于每一个属性，分派一个序号
     #print tree
@@ -161,4 +161,4 @@ def test_fp_tree():
 
     return tree, tree_from, sorteditem
 
-test_fp_tree()
+#test_fp_tree()
