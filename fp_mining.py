@@ -26,33 +26,37 @@ def num_of_sorteditem(item):
 
 
 #删除trans中所有排在node之后的元素，并且将trans递减排序
-def fp_base_pre(trans, node):
+def fp_base_pre(trans, this_node):
 
     global sorteditem
     new_trans = []
 
     for item in trans:
-        if num_of_sorteditem(item) > num_of_sorteditem(node):
+        if num_of_sorteditem(item) > num_of_sorteditem(this_node):
             new_trans.append(item)
-    print node
-    print new_trans
+
     #找出trans中序号大于node的元素，保存在new_trans中
 
     len_new_trans = len(new_trans)
-    sorted_new_trans = [0] * len_new_trans
-    max_node = node
+    sorted_new_trans = [0] * (len_new_trans)
+    max_node = this_node
 
     #注意项集可能为空
-    if new_trans != []:
-        for i in range(len_new_trans - 1):
-            for item in new_trans:
-                if num_of_sorteditem(item) > num_of_sorteditem(max_node):
-                    max_node = item
-            sorted_new_trans[i] = max_node
-            del new_trans[new_trans.index(max_node)]
+    for i in range(len_new_trans):
+        max_node = this_node
+        for item in new_trans:
+            if num_of_sorteditem(item) > num_of_sorteditem(max_node):
+                max_node = item
+
+        sorted_new_trans[i] = max_node
+
+        del new_trans[new_trans.index(max_node)]
         #排序
 
-    return sorted_new_trans
+    if sorted_new_trans != []:
+        return sorted_new_trans
+    else:
+        return []
 
 
 #找出节点的条件模式基,并且返回
@@ -74,23 +78,31 @@ def fp_base(node):
         base_set[key] = fp_base_pre(base_set[key], node)
     #删除事务中小于node的节点，并且进行排序
 
+
+
+    #!需要重新构造一次，问题主要在于base_set中的重复项
     link_set = {}
     temp_set = []
     iter = []
-    for key in base_set:
-        #生成组合
+    for key in base_set:#生成组合
         for i in range(1,len(base_set[key]) + 1):
-            iter = itertools.combinations(base_set[key], i)
-            temp_set.append(list(iter))
+            iter = list(itertools.combinations(base_set[key], i))
+            temp_set.append(iter)
+        print 'temp_set :'
+        print temp_set
 
         for item_1 in temp_set:
             for item_2 in item_1:
                 if item_2 in link_set.keys():
                     item_2 = tuple(item_2)
                     link_set[item_2] += 1
+                    #print 'link_set 1'
+                    #print link_set
                 else:
                     item_2 = tuple(item_2)
                     link_set[item_2] = 1
+                    #print 'link_set 2'
+                    #print link_set
 
         temp_key = []
         link_set_keys = []
@@ -107,7 +119,9 @@ def fp_base(node):
             else:
                 del link_set[item]
 
-    print link_set
+    #print 'link_set'
+    #print link_set
+
     return link_set
 
 
@@ -120,7 +134,8 @@ def fp_growth(tree_form):
     fp_set = {}
 
     for key in tree_form:
-        fp_set.update(fp_base(key))
+        if node != 0:
+            fp_set.update(fp_base(key))
 
     return fp_set
 
@@ -141,4 +156,4 @@ path = 'C:\Users\AlanCheg\Desktop\Bank_data_lite.csv'
 dataset = csv_to_dataset(path)
 
 sorted_tree_form = tree_form_sorted(tree_form)
-fp_growth(tree_form)
+print fp_growth(tree_form)
