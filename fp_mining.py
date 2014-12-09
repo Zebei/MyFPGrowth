@@ -73,37 +73,41 @@ def fp_base(node):
             base_set[i] = dataset[key]
             i += 1
     #找出节点存在的所有事务
+    #base_set 是key 从 1 开始的字典
 
     for key in base_set:
         base_set[key] = fp_base_pre(base_set[key], node)
-    #删除事务中小于node的节点，并且进行排序
+    #删除事务中排序小于node的节点，并且进行排序
+    #因为从树的结构上来看，排序小于node 的节点既是已经遍历过的节点，没有再遍历的意义
 
-
-
-    #!需要重新构造一次，问题主要在于base_set中的重复项
-    link_set = {}
+    link_set = {}#用于保存每个事务的连接事项，key是项数，value是项数出现的次数
     temp_set = []
-    iter = []
+    iter_item = []
+
     for key in base_set:#生成组合
+        temp_set = []#初始化防止出现重复项
+
         for i in range(1,len(base_set[key]) + 1):
-            iter = list(itertools.combinations(base_set[key], i))
-            temp_set.append(iter)
-        print 'temp_set :'
-        print temp_set
+            iter_item = list(itertools.combinations(base_set[key], i))
+            temp_set.append(iter_item)
 
-        for item_1 in temp_set:
-            for item_2 in item_1:
-                if item_2 in link_set.keys():
-                    item_2 = tuple(item_2)
-                    link_set[item_2] += 1
-                    #print 'link_set 1'
-                    #print link_set
+        for item_1 in temp_set:#对于每个项数一样的集合
+            for item_2 in item_1:#对于集合中的每个元素
+
+                #print item_2
+                #print list(item_2)
+                temp_item_2 = list(item_2)
+                temp_item_2.append(node)
+                temp_item_2 = tuple(temp_item_2)
+
+                #temp_item_2 = tuple(list(item_2).append(node))#每个项集都要和node组合
+
+                if temp_item_2 in link_set.keys():
+                    link_set[temp_item_2] += 1
                 else:
-                    item_2 = tuple(item_2)
-                    link_set[item_2] = 1
-                    #print 'link_set 2'
-                    #print link_set
+                    link_set[temp_item_2] = 1
 
+        '''
         temp_key = []
         link_set_keys = []
         for key in link_set:
@@ -118,9 +122,7 @@ def fp_base(node):
                 del link_set[item]
             else:
                 del link_set[item]
-
-    #print 'link_set'
-    #print link_set
+        '''
 
     return link_set
 
@@ -148,9 +150,6 @@ tree, tree_form, sorteditem = test_fp_tree()
 global fp_set, minsup
 fp_set = {}
 minsup = 5
-
-print tree
-print tree_form
 
 path = 'C:\Users\AlanCheg\Desktop\Bank_data_lite.csv'
 dataset = csv_to_dataset(path)
