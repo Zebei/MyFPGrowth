@@ -1,6 +1,7 @@
 # -*- coding: UTF8 -*-
+
 from fp_tree import test_fp_tree, node, fp_tree
-from csv_to_dataset import csv_to_dataset
+#from csv_to_dataset import csv_to_data_set
 import itertools #用于生成排列组合的link
 
 #首先，对tree_form 进行排序
@@ -124,7 +125,13 @@ def fp_base(node):
                 del link_set[item]
         '''
 
-    return link_set
+    new_link_set = {}
+    for key in link_set:
+        if link_set[key] >= minsup:
+            new_link_set[key] = link_set[key]
+    #删除link_set 中的非fp项集
+
+    return new_link_set
 
 
 def fp_growth(tree_form):
@@ -142,17 +149,15 @@ def fp_growth(tree_form):
     return fp_set
 
 
-#----------test-------------
-global tree, tree_form, sorteditem
-global dataset
-tree, tree_form, sorteditem = test_fp_tree()
+def test_fp_mining(out_tree, out_tree_form, out_sorted_item, out_data_set, out_min_sup):
 
-global fp_set, minsup
-fp_set = {}
-minsup = 5
+    global tree, tree_form, sorteditem, dataset, fp_set, minsup
+    tree = out_tree
+    tree_form = out_tree_form
+    sorteditem = out_sorted_item
+    dataset = out_data_set
+    fp_set = {}
+    minsup = out_min_sup
 
-path = 'C:\Users\AlanCheg\Desktop\Bank_data_lite.csv'
-dataset = csv_to_dataset(path)
-
-sorted_tree_form = tree_form_sorted(tree_form)
-print fp_growth(tree_form)
+    sorted_tree_form = tree_form_sorted(tree_form)
+    return fp_growth(tree_form)

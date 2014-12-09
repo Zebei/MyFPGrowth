@@ -1,20 +1,11 @@
 # -*- coding: UTF8 -*-
 
-'''
-——————
-这个程序主要是将.csv 文件转换成其他算法可用的数据集合dataset
-例如用于Apriori以及FP-growth算法中。
-——————
-输入：.csv文件
-输出：按每行区分的字典数据集合
-输出数据示例：
-{1: ['id:ID12101', 'age:48', 'sex:FEMALE', 'region:INNER_CITY', 'income:17546.0', 'married:NO', 'children:1', 'car:NO', 'save_act:NO', 'current_act:NO', 'mortgage:NO'],
-2: ['id:ID12102', 'age:40', 'sex:MALE', 'region:TOWN', 'income:30085.1', 'married:YES', 'children:3', 'car:YES', 'save_act:NO', 'current_act:YES', 'mortgage:YES']}
-——————
-'''
+#这个程序主要是将.csv 文件转换成其他算法可用的数据集合data_set
+#例如用于 apriori 以及FP-growth算法中。
+#输入：.csv文件
+#输出：按每行区分的字典数据集合
 
-
-def csv_to_dataset(path):
+def csv_to_data_set(path):
     d_all ={}
     d_item = []
     str_value = ''
@@ -50,6 +41,7 @@ def csv_to_dataset(path):
             i_item += 1
     #print d_all
     return d_all
+
 
 '''
 ----

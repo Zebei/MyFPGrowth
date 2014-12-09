@@ -1,14 +1,29 @@
 # -*- coding: UTF8 -*-
 
-from mod_Apriori import mod_apriori
-from csv_to_dataset import csv_to_dataset
-from mod_fp_growth import mod_fp_growth
-#from matplotlib_test import *
+from csv_to_dataset import csv_to_data_set  # import
+from fp_pretreatment import fp_pretreatment
+from fp_tree import test_fp_tree
+from fp_mining import test_fp_mining
 
-path = 'C:\Users\AlanCheg\Desktop\DataMining\Bank-data.csv'
-data = csv_to_dataset(path)
-min_sup = 20
+print 'This is a python program to achieve fp_growth!'
+file_path = raw_input('Please input the path of your file(now only support .csv file) : ')
+min_sup = raw_input('Please input the min_sup : ')
 
+if file_path == '':
+    file_path = 'C:\Users\AlanCheg\Desktop\DataMining\Bank-data.csv'  # default
+if min_sup == '':
+    min_sup = 20   # default
+
+data_set = csv_to_data_set(file_path)
+sorted_item = fp_pretreatment(data_set)
+tree, tree_form = test_fp_tree(data_set, sorted_item, min_sup)
+print tree, tree_form
+
+fp_set = test_fp_mining(tree, tree_form, sorted_item, data_set, min_sup)
+
+print min_sup
+
+'''
 end = '0'
 while end == '0':
     i = raw_input('1. Aprori ; 2. FP-Growth ; 3.Exit:')
@@ -20,3 +35,4 @@ while end == '0':
         end = 1
     else:
         print 'Input wrong!'
+'''

@@ -1,10 +1,7 @@
 # -*- coding: UTF8 -*-
 
-from csv_to_dataset import csv_to_dataset
-from fp_pretreatment import fp_pretreatment
-from global_var import dataset, tree, tree_from, minsup, sorteditem, now_number #导入全局变量，更加方便
+global now_number, dataset, tree, tree_from, minsup, sorteditem
 
-global now_number
 
 #将trans 按照 sorteditem 的次序生成并且返回 p, [P]
 def sort_trans(trans):
@@ -141,8 +138,9 @@ def fp_tree(dataset):
 
 
 #------test------------
-def test_fp_tree():
+def test_fp_tree(data_set, sorted_item, out_min_sup):
 
+    '''
     global dataset
     path = 'C:\Users\AlanCheg\Desktop\Bank_data_lite.csv'
     dataset = csv_to_dataset(path)
@@ -150,15 +148,19 @@ def test_fp_tree():
 
     global minsup, sorteditem
 
+
     minsup = 5
     dataset, sorteditem = fp_pretreatment(dataset, minsup)
     #对dataset 进行第一次排序，生成属性的排序表 sorteditem
-    fp_tree(dataset)
+    '''
+
+    global minsup
+    minsup = out_min_sup
+
+    fp_tree(data_set)
 
     #对于每一个属性，分派一个序号
     #print tree
     #print tree_from
 
-    return tree, tree_from, sorteditem
-
-#test_fp_tree()
+    return tree, tree_from
