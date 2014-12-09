@@ -1,11 +1,12 @@
 # -*- coding: UTF8 -*-
 
-from fp_tree import test_fp_tree, node, fp_tree
-#from csv_to_dataset import csv_to_data_set
+from fp_tree import MyNode
 import itertools #用于生成排列组合的link
 
 #首先，对tree_form 进行排序
-def tree_form_sorted(tree_from):
+def tree_form_sorted():
+
+    global tree_form
 
     num_tree_form = {}
     for key in tree_form:
@@ -16,24 +17,25 @@ def tree_form_sorted(tree_from):
     return sorted_tree_form
 
 
-#找出元素item在sorteditem中的次序
-def num_of_sorteditem(item):
+#找出元素item在sorted_item中的次序
+def num_of_sorted_item(item):
 
-    global sorteditem
+    global sorted_item
 
-    for i in range(len(sorteditem) - 1):
-        if sorteditem[i][0] == item:
+    for i in range(len(sorted_item) - 1):
+        if sorted_item[i][0] == item:
             return i
 
 
 #删除trans中所有排在node之后的元素，并且将trans递减排序
 def fp_base_pre(trans, this_node):
 
-    global sorteditem
+    global sorted_item
+
     new_trans = []
 
     for item in trans:
-        if num_of_sorteditem(item) > num_of_sorteditem(this_node):
+        if num_of_sorted_item(item) > num_of_sorted_item(this_node):
             new_trans.append(item)
 
     #找出trans中序号大于node的元素，保存在new_trans中
@@ -46,7 +48,7 @@ def fp_base_pre(trans, this_node):
     for i in range(len_new_trans):
         max_node = this_node
         for item in new_trans:
-            if num_of_sorteditem(item) > num_of_sorteditem(max_node):
+            if num_of_sorted_item(item) > num_of_sorted_item(max_node):
                 max_node = item
 
         sorted_new_trans[i] = max_node
@@ -63,15 +65,15 @@ def fp_base_pre(trans, this_node):
 #找出节点的条件模式基,并且返回
 def fp_base(node):
 
-    global dataset
-    global minsup
+    global data_set
+    global min_sup
 
     base_set = {}
 
     i = 1
-    for key in dataset:
-        if node in dataset[key]:
-            base_set[i] = dataset[key]
+    for key in data_set:
+        if node in data_set[key]:
+            base_set[i] = data_set[key]
             i += 1
     #找出节点存在的所有事务
     #base_set 是key 从 1 开始的字典
@@ -108,42 +110,27 @@ def fp_base(node):
                 else:
                     link_set[temp_item_2] = 1
 
-        '''
-        temp_key = []
-        link_set_keys = []
-        for key in link_set:
-            link_set_keys.append(key)
-
-        for item in link_set_keys:
-            if link_set[item] >= minsup:
-                temp_key = list(item)
-                temp_key.append(node)
-                temp_key = tuple(temp_key)
-                link_set[temp_key] = link_set[item]
-                del link_set[item]
-            else:
-                del link_set[item]
-        '''
-
     new_link_set = {}
     for key in link_set:
-        if link_set[key] >= minsup:
+        if link_set[key] >= min_sup:
             new_link_set[key] = link_set[key]
     #删除link_set 中的非fp项集
 
     return new_link_set
 
 
-def fp_growth(tree_form):
+def fp_growth(sorted_tree_form):
 
-    global dataset
-    global minsup
+    global data_set
+    global min_sup
+    global fp_set
 
-    minsup = 5
+    min_sup = 5
     fp_set = {}
 
-    for key in tree_form:
-        if node != 0:
+    for key in sorted_tree_form:
+        this_node = key
+        if this_node != 0:
             fp_set.update(fp_base(key))
 
     return fp_set
@@ -151,13 +138,14 @@ def fp_growth(tree_form):
 
 def test_fp_mining(out_tree, out_tree_form, out_sorted_item, out_data_set, out_min_sup):
 
-    global tree, tree_form, sorteditem, dataset, fp_set, minsup
+    global tree, tree_form, sorted_item, data_set, fp_set, min_sup
+
     tree = out_tree
     tree_form = out_tree_form
-    sorteditem = out_sorted_item
-    dataset = out_data_set
+    sorted_item = out_sorted_item
+    data_set = out_data_set
     fp_set = {}
-    minsup = out_min_sup
+    min_sup = out_min_sup
 
-    sorted_tree_form = tree_form_sorted(tree_form)
-    return fp_growth(tree_form)
+    sorted_tree_form = tree_form_sorted()
+    return fp_growth(sorted_tree_form)

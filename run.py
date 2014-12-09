@@ -2,7 +2,7 @@
 
 from csv_to_dataset import csv_to_data_set  # import
 from fp_pretreatment import fp_pretreatment
-from fp_tree import test_fp_tree
+from fp_tree import fp_tree
 from fp_mining import test_fp_mining
 
 print 'This is a python program to achieve fp_growth!'
@@ -16,12 +16,9 @@ if min_sup == '':
 
 data_set = csv_to_data_set(file_path)
 sorted_item = fp_pretreatment(data_set)
-tree, tree_form = test_fp_tree(data_set, sorted_item, min_sup)
-print tree, tree_form
-
+tree, tree_form = fp_tree(data_set, sorted_item)
 fp_set = test_fp_mining(tree, tree_form, sorted_item, data_set, min_sup)
-
-print min_sup
+print fp_set
 
 '''
 end = '0'
