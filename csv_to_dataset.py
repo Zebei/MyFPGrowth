@@ -5,6 +5,7 @@
 #输入：.csv文件
 #输出：按每行区分的字典数据集合
 
+
 def csv_to_data_set(path):
     d_all ={}
     d_item = []
@@ -41,17 +42,3 @@ def csv_to_data_set(path):
             i_item += 1
     #print d_all
     return d_all
-
-
-'''
-----
-test code
-----
-
-#path = raw_input('print path: ')
-path = 'C:\Users\AlanCheg\Desktop\DataMining\Bank-data.csv'
-d_all = csv_to_dataset(path)
-for key in d_all:
-    print key
-    print d_all[key]
-'''

@@ -132,8 +132,10 @@ def fp_tree(data_set, out_sorted_item):
     for key in data_set:
         new_trans = []
         temp = data_set[key]
+
         sort_trans(new_trans, temp)
         data_set[key] = new_trans
+
         temp = data_set[key]
         create_fp_tree(0, temp, 1)
     #将数据集合中的所有元素排序
